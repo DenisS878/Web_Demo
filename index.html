@@ -203,6 +203,50 @@
   }
   .listing-sites a:hover{ background:rgba(16,27,45,0.09); }
 
+  .landmark-stamp{
+    width:58px; height:42px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--brass);
+    opacity:0.85;
+    flex-shrink:0;
+  }
+  .landmark-stamp svg{ width:100%; height:100%; }
+
+  .state-links{
+    max-width:1080px;
+    margin:0 auto 2.4rem;
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:1.2rem 1.5rem;
+  }
+  .state-links summary{
+    cursor:pointer;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.72rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  .state-grid{
+    margin-top:1rem;
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+    gap:0.8rem 1.2rem;
+  }
+  .state-grid .state-name{ font-size:0.88rem; font-weight:600; margin-bottom:0.2rem; }
+  .state-grid a{
+    display:inline-block;
+    font-size:0.8rem;
+    color:var(--navy);
+    text-decoration:none;
+    margin-right:0.7rem;
+    border-bottom:1px solid rgba(16,27,45,0.25);
+  }
+  .state-grid a:hover{ border-bottom-color:var(--navy); }
+
   .tracks{
     max-width:1080px;
     margin:0 auto;
@@ -367,7 +411,7 @@
 <div id="panel-root"></div>
 
 <footer>
-  <p>Two countries fully researched so far — Australia and Saudi Arabia. The other eight are on the map and coming as they're verified.<br>
+  <p>All 10 countries are now fully researched — Australia, Saudi Arabia, the UK, USA, Canada, UAE, Germany, Singapore, Spain, and Portugal.<br>
   <span class="mono">Always confirm current requirements on the official government site linked for each step — rules on foreign ownership and residency change often.</span></p>
 </footer>
 
@@ -375,7 +419,18 @@
 const DATA = {
   au: {
     flag: "🇦🇺", name: "Australia", soon:false,
+    icon: `<svg viewBox="0 0 100 60" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><path d="M12 55 Q22 28 34 55"/><path d="M26 55 Q40 18 56 55"/><path d="M48 55 Q62 24 78 55"/><line x1="6" y1="55" x2="94" y2="55"/></svg>`,
     subtitle: "Renting is open to anyone with the right paperwork. Buying as a foreign non-resident is legal but tightly regulated by the federal government.",
+    stateLinks: [
+      {state:"New South Wales", tenancy:"https://www.fairtrading.nsw.gov.au/housing-and-property/renting", revenue:"https://www.revenue.nsw.gov.au"},
+      {state:"Victoria", tenancy:"https://www.consumer.vic.gov.au/housing/renting", revenue:"https://www.sro.vic.gov.au"},
+      {state:"Queensland", tenancy:"https://www.rta.qld.gov.au", revenue:"https://qro.qld.gov.au"},
+      {state:"Western Australia", tenancy:"https://www.commerce.wa.gov.au/consumer-protection/renting-wa", revenue:"https://www.wa.gov.au/organisation/department-of-finance/duties"},
+      {state:"South Australia", tenancy:"https://www.cbs.sa.gov.au/renting-tenancy", revenue:"https://www.revenuesa.sa.gov.au"},
+      {state:"Tasmania", tenancy:"https://www.cbos.tas.gov.au/topics/housing/renting", revenue:"https://www.sro.tas.gov.au"},
+      {state:"Australian Capital Territory", tenancy:"https://www.accesscanberra.act.gov.au/renting-and-tenancy", revenue:"https://www.revenue.act.gov.au"},
+      {state:"Northern Territory", tenancy:"https://consumeraffairs.nt.gov.au/tenancy", revenue:"https://treasury.nt.gov.au/dtf/territory-revenue-office"}
+    ],
     listingSites: [
       {label:"realestate.com.au", url:"https://www.realestate.com.au"},
       {label:"domain.com.au", url:"https://www.domain.com.au"},
@@ -423,6 +478,7 @@ const DATA = {
   },
   sa: {
     flag: "🇸🇦", name: "Saudi Arabia", soon:false,
+    icon: `<svg viewBox="0 0 100 60" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><circle cx="50" cy="32" r="14"/><line x1="50" y1="10" x2="50" y2="18"/><line x1="22" y1="55" x2="22" y2="24"/><line x1="78" y1="55" x2="78" y2="24"/><line x1="6" y1="55" x2="94" y2="55"/></svg>`,
     subtitle: "Renting is the default path for the country's large expat population. Buying just opened up nationwide in January 2026 under a brand-new law.",
     listingSites: [
       {label:"Aqar", url:"https://sa.aqar.fm"},
@@ -471,6 +527,7 @@ const DATA = {
   },
   gb: {
     flag: "🇬🇧", name: "United Kingdom", soon:false,
+    icon: `<svg viewBox="0 0 100 60" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><rect x="40" y="16" width="20" height="39"/><polygon points="40,16 50,4 60,16"/><line x1="6" y1="55" x2="94" y2="55"/></svg>`,
     subtitle: "Renting is open to anyone who can pass a 'Right to Rent' check. Buying has zero residency restrictions, but non-residents pay a stamp duty surcharge.",
     listingSites: [
       {label:"Rightmove", url:"https://www.rightmove.co.uk"},
@@ -516,6 +573,7 @@ const DATA = {
   },
   us: {
     flag: "🇺🇸", name: "United States", soon:false,
+    icon: `<svg viewBox="0 0 100 60" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><rect x="42" y="25" width="16" height="30"/><line x1="50" y1="25" x2="50" y2="10"/><path d="M42 10 Q50 1 58 10"/><line x1="6" y1="55" x2="94" y2="55"/></svg>`,
     subtitle: "Renting and buying both have no citizenship requirement — the real hurdles are building credit history and navigating tax rules like FIRPTA as a foreign buyer.",
     listingSites: [
       {label:"Zillow", url:"https://www.zillow.com"},
@@ -561,6 +619,7 @@ const DATA = {
   },
   ca: {
     flag: "🇨🇦", name: "Canada", soon:false,
+    icon: `<svg viewBox="0 0 100 60" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><line x1="50" y1="55" x2="50" y2="12"/><ellipse cx="50" cy="22" rx="13" ry="5"/><line x1="6" y1="55" x2="94" y2="55"/></svg>`,
     subtitle: "Renting is straightforward for newcomers. Buying is currently restricted for most non-Canadians under a federal ban running to January 2027.",
     listingSites: [
       {label:"Realtor.ca", url:"https://www.realtor.ca"},
@@ -606,6 +665,7 @@ const DATA = {
   },
   ae: {
     flag: "🇦🇪", name: "UAE", soon:false,
+    icon: `<svg viewBox="0 0 100 60" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M45 55 L47 18 L50 6 L53 18 L55 55"/><line x1="6" y1="55" x2="94" y2="55"/></svg>`,
     subtitle: "Renting runs on the government's Ejari system. Buying is fully open to foreigners in designated freehold zones, with no residency required.",
     listingSites: [
       {label:"Bayut", url:"https://www.bayut.com"},
@@ -651,6 +711,7 @@ const DATA = {
   },
   de: {
     flag: "🇩🇪", name: "Germany", soon:false,
+    icon: `<svg viewBox="0 0 100 60" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><line x1="25" y1="55" x2="25" y2="22"/><line x1="40" y1="55" x2="40" y2="22"/><line x1="60" y1="55" x2="60" y2="22"/><line x1="75" y1="55" x2="75" y2="22"/><line x1="20" y1="22" x2="80" y2="22"/><line x1="6" y1="55" x2="94" y2="55"/></svg>`,
     subtitle: "Renting is competitive and paperwork-heavy, especially around the Schufa credit check. Buying has no restrictions on foreigners at all — the same process applies to everyone.",
     listingSites: [
       {label:"ImmobilienScout24", url:"https://www.immobilienscout24.de"},
@@ -696,6 +757,7 @@ const DATA = {
   },
   sg: {
     flag: "🇸🇬", name: "Singapore", soon:false,
+    icon: `<svg viewBox="0 0 100 60" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><line x1="30" y1="55" x2="30" y2="22"/><line x1="50" y1="55" x2="50" y2="16"/><line x1="70" y1="55" x2="70" y2="22"/><path d="M22 22 Q50 8 78 22"/><line x1="6" y1="55" x2="94" y2="55"/></svg>`,
     subtitle: "Renting private property is open to any valid pass holder. Buying is legal for foreigners but comes with a steep 60% additional tax on most nationalities.",
     listingSites: [
       {label:"PropertyGuru", url:"https://www.propertyguru.com.sg"},
@@ -741,6 +803,7 @@ const DATA = {
   },
   es: {
     flag: "🇪🇸", name: "Spain", soon:false,
+    icon: `<svg viewBox="0 0 100 60" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M33 55 L36 20 L39 55"/><path d="M48 55 L51 10 L54 55"/><path d="M63 55 L66 24 L69 55"/><line x1="6" y1="55" x2="94" y2="55"/></svg>`,
     subtitle: "Renting is open to anyone with a passport. Buying has no restrictions today, though a proposed tax targeting non-EU buyers is still being debated in parliament.",
     listingSites: [
       {label:"Idealista", url:"https://www.idealista.com"},
@@ -786,6 +849,7 @@ const DATA = {
   },
   pt: {
     flag: "🇵🇹", name: "Portugal", soon:false,
+    icon: `<svg viewBox="0 0 100 60" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><rect x="40" y="22" width="20" height="33"/><polygon points="38,22 50,10 62,22"/><rect x="35" y="45" width="30" height="10"/><line x1="6" y1="55" x2="94" y2="55"/></svg>`,
     subtitle: "Renting and buying are both open to foreigners with no restrictions — the main hurdle for both is getting your NIF tax number sorted early.",
     listingSites: [
       {label:"Idealista Portugal", url:"https://www.idealista.pt"},
@@ -876,19 +940,51 @@ function track(kind, data, countryKey){
   `;
 }
 
+function stateLinksBlock(c){
+  if (!c.stateLinks) return "";
+  const rows = c.stateLinks.map(s => `
+    <div>
+      <div class="state-name">${s.state}</div>
+      <a href="${s.tenancy}" target="_blank" rel="noopener">Tenancy rules ↗</a>
+      <a href="${s.revenue}" target="_blank" rel="noopener">Stamp duty office ↗</a>
+    </div>
+  `).join("");
+  return `
+    <details class="state-links">
+      <summary>Official links by state/territory</summary>
+      <div class="state-grid">${rows}</div>
+    </details>
+  `;
+}
+
+function setHeadForCountry(c){
+  document.title = `${c.flag} ${c.name} — Renting & Buying Abroad`;
+  let link = document.querySelector("link[rel~='icon']");
+  if (!link){
+    link = document.createElement('link');
+    link.rel = 'icon';
+    document.head.appendChild(link);
+  }
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>${c.flag}</text></svg>`;
+  link.href = 'data:image/svg+xml,' + encodeURIComponent(svg);
+}
+
 function renderPanel(key){
   const c = DATA[key];
+  setHeadForCountry(c);
   panelRoot.innerHTML = `
     <div class="country-panel">
       <div class="country-head">
         <span class="flag-big">${c.flag}</span>
         <h2>${c.name}</h2>
+        <span class="landmark-stamp">${c.icon || ""}</span>
       </div>
       <p style="max-width:1080px;margin:-1.6rem auto 1.4rem;color:var(--ink-soft);font-size:0.95rem;">${c.subtitle}</p>
       <div class="listing-sites">
         <span class="ls-label">Where locals search</span>
         ${c.listingSites.map(s => `<a href="${s.url}" target="_blank" rel="noopener">${s.label} ↗</a>`).join("")}
       </div>
+      ${stateLinksBlock(c)}
       <div class="tracks">
         ${track('rent', c.rent, key)}
         ${track('buy', c.buy, key)}
