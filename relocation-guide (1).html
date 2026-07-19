@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crossing Over — Renting &amp; Buying Abroad, Country by Country</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#101b2d;
+    --navy-2:#182742;
+    --paper:#e9e6dc;
+    --paper-2:#f2efe6;
+    --brick:#a13d2c;
+    --brass:#b08d57;
+    --teal:#1f5c56;
+    --ink:#23262b;
+    --ink-soft:#565a52;
+    --line: rgba(16,27,45,0.14);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--navy);
+    color:var(--paper);
+    font-family:'Public Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
+  }
+  .mono{
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:0.02em;
+  }
+  a{color:inherit;}
+  button{font-family:inherit;}
+
+  /* ===== HERO ===== */
+  .hero{
+    position:relative;
+    padding:5.5rem 1.5rem 4rem;
+    text-align:center;
+    overflow:hidden;
+    border-bottom:1px solid rgba(233,230,220,0.12);
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(176,141,87,0.10), transparent 40%),
+      radial-gradient(circle at 85% 75%, rgba(31,92,86,0.16), transparent 45%);
+    pointer-events:none;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--brass);
+    margin-bottom:1.1rem;
+  }
+  .hero h1{
+    font-size:clamp(2.1rem, 5vw, 3.6rem);
+    line-height:1.05;
+    max-width:16em;
+    margin:0 auto 1.1rem;
+    color:var(--paper-2);
+  }
+  .hero p{
+    max-width:34em;
+    margin:0 auto;
+    color:rgba(233,230,220,0.72);
+    font-size:1.05rem;
+    line-height:1.55;
+  }
+  .stamp-badge{
+    position:relative;
+    display:inline-flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    width:128px; height:128px;
+    margin:2.2rem auto 0;
+    border:2px solid var(--brick);
+    border-radius:50%;
+    transform:rotate(-7deg);
+    color:var(--brick);
+    opacity:0.9;
+  }
+  .stamp-badge::before{
+    content:"";
+    position:absolute; inset:6px;
+    border:1px dashed var(--brick);
+    border-radius:50%;
+  }
+  .stamp-badge .n{ font-family:'Fraunces',serif; font-size:1.9rem; font-weight:700; line-height:1;}
+  .stamp-badge .t{ font-family:'IBM Plex Mono',monospace; font-size:0.58rem; letter-spacing:0.1em; text-transform:uppercase; margin-top:0.2rem;}
+
+  /* ===== COUNTRY SELECTOR ===== */
+  .selector-wrap{
+    background:var(--navy-2);
+    padding:2.4rem 1.5rem;
+    border-bottom:1px solid rgba(233,230,220,0.12);
+  }
+  .selector-label{
+    text-align:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:rgba(233,230,220,0.5);
+    margin-bottom:1.4rem;
+  }
+  .stamps{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0.9rem 0.7rem;
+    justify-content:center;
+    max-width:980px;
+    margin:0 auto;
+  }
+  .stamp-btn{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:0.5rem;
+    padding:0.65rem 1.1rem 0.65rem 0.8rem;
+    background:transparent;
+    border:1.5px solid rgba(233,230,220,0.28);
+    border-radius:999px;
+    color:rgba(233,230,220,0.78);
+    cursor:pointer;
+    font-size:0.88rem;
+    font-weight:500;
+    transition:all 0.18s ease;
+  }
+  .stamp-btn .flag{ font-size:1.15rem; }
+  .stamp-btn:hover{ border-color:var(--brass); color:var(--paper-2); }
+  .stamp-btn.active{
+    border-color:var(--brick);
+    background:rgba(161,61,44,0.16);
+    color:var(--paper-2);
+  }
+  .stamp-btn.soon{ opacity:0.42; cursor:default; }
+  .stamp-btn.soon:hover{ border-color:rgba(233,230,220,0.28); color:rgba(233,230,220,0.78); }
+  .stamp-btn .soon-tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.6rem;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    margin-left:0.15rem;
+  }
+
+  /* ===== MAIN CONTENT ===== */
+  .country-panel{
+    background:var(--paper);
+    color:var(--ink);
+    padding:3.2rem 1.5rem 5rem;
+  }
+  .country-head{
+    max-width:1080px;
+    margin:0 auto 2.6rem;
+    display:flex;
+    align-items:baseline;
+    gap:0.9rem;
+    flex-wrap:wrap;
+  }
+  .country-head .flag-big{ font-size:2.6rem; }
+  .country-head h2{ font-size:2.1rem; margin:0; color:var(--navy); }
+  .country-head .subtitle{ color:var(--ink-soft); font-size:0.95rem; }
+
+  .listing-sites{
+    max-width:1080px;
+    margin:0 auto 2rem;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:0.6rem 0.9rem;
+  }
+  .listing-sites .ls-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.68rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-right:0.2rem;
+  }
+  .listing-sites a{
+    display:inline-block;
+    text-decoration:none;
+    font-size:0.85rem;
+    font-weight:600;
+    color:var(--navy);
+    background:rgba(16,27,45,0.05);
+    border:1px solid var(--line);
+    padding:0.35rem 0.75rem;
+    border-radius:999px;
+  }
+  .listing-sites a:hover{ background:rgba(16,27,45,0.09); }
+
+  .tracks{
+    max-width:1080px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1.8rem;
+  }
+  @media (max-width:800px){ .tracks{ grid-template-columns:1fr; } }
+
+  .ticket{
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:1.9rem 1.7rem 1.6rem;
+    position:relative;
+  }
+  .ticket.rent{ border-top:4px solid var(--teal); }
+  .ticket.buy{ border-top:4px solid var(--brick); }
+  .ticket-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:1rem;
+    margin-bottom:0.3rem;
+  }
+  .ticket-head h3{ font-size:1.3rem; margin:0; }
+  .ticket.rent h3{ color:var(--teal); }
+  .ticket.buy h3{ color:var(--brick); }
+  .duration-pill{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.72rem;
+    white-space:nowrap;
+    background:rgba(16,27,45,0.06);
+    border:1px solid var(--line);
+    padding:0.3rem 0.6rem;
+    border-radius:999px;
+    color:var(--ink-soft);
+  }
+  .eligibility-note{
+    font-size:0.85rem;
+    color:var(--ink-soft);
+    background:rgba(176,141,87,0.13);
+    border:1px solid rgba(176,141,87,0.35);
+    padding:0.65rem 0.8rem;
+    border-radius:8px;
+    margin:0.9rem 0 1.3rem;
+    line-height:1.5;
+  }
+
+  .steps{ list-style:none; margin:0 0 1.5rem; padding:0; counter-reset:step; }
+  .steps li{
+    counter-increment:step;
+    position:relative;
+    padding:0 0 1.15rem 2.4rem;
+    margin-left:0.1rem;
+    border-left:1.5px solid var(--line);
+  }
+  .steps li:last-child{ border-left:1.5px solid transparent; padding-bottom:0; }
+  .steps li::before{
+    content: counter(step);
+    position:absolute;
+    left:-14px; top:-2px;
+    width:27px; height:27px;
+    border-radius:50%;
+    background:var(--navy);
+    color:var(--paper-2);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.75rem;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .ticket.rent .steps li::before{ background:var(--teal); }
+  .ticket.buy .steps li::before{ background:var(--brick); }
+  .steps .step-title{ font-weight:600; font-size:0.98rem; margin-bottom:0.15rem; }
+  .steps .step-desc{ font-size:0.87rem; color:var(--ink-soft); line-height:1.5; }
+
+  .section-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.68rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin:1.3rem 0 0.6rem;
+    padding-top:1rem;
+    border-top:1px dashed var(--line);
+  }
+  .doc-list{ list-style:none; margin:0; padding:0; }
+  .doc-list li{
+    font-size:0.87rem;
+    padding:0.35rem 0;
+    padding-left:1.3rem;
+    position:relative;
+    color:var(--ink);
+  }
+  .doc-list li::before{
+    content:"✓";
+    position:absolute; left:0; top:0.32rem;
+    color:var(--teal);
+    font-size:0.8rem;
+    font-weight:700;
+  }
+  .ticket.buy .doc-list li::before{ color:var(--brick); }
+
+  .link-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.5rem; }
+  .link-list a{
+    display:inline-flex;
+    align-items:center;
+    gap:0.4rem;
+    font-size:0.87rem;
+    text-decoration:none;
+    color:var(--navy);
+    font-weight:600;
+    border-bottom:1px solid transparent;
+  }
+  .link-list a:hover{ border-bottom-color:var(--navy); }
+  .link-list .url{ font-family:'IBM Plex Mono',monospace; font-weight:400; color:var(--ink-soft); font-size:0.78rem; }
+
+  .notes-box{
+    margin-top:1.3rem;
+    font-size:0.83rem;
+    color:var(--ink-soft);
+    line-height:1.5;
+    font-style:italic;
+  }
+
+  .coming-soon-panel{
+    max-width:640px;
+    margin:0 auto;
+    text-align:center;
+    padding:3rem 1.5rem;
+  }
+  .coming-soon-panel .flag-big{ font-size:3rem; display:block; margin-bottom:1rem;}
+  .coming-soon-panel h2{ color:var(--navy); margin-bottom:0.6rem; }
+  .coming-soon-panel p{ color:var(--ink-soft); line-height:1.6; }
+
+  footer{
+    background:var(--navy);
+    padding:2.4rem 1.5rem;
+    text-align:center;
+    font-size:0.8rem;
+    color:rgba(233,230,220,0.45);
+  }
+  footer .mono{ color:rgba(233,230,220,0.35); }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="eyebrow">A field guide for people mid-move</div>
+  <h1>Know the paperwork<br>before you pack a box.</h1>
+  <p>Renting and buying property work differently in every country — different documents, different timelines, different government portals. This is a growing reference for the steps, the waiting, and the official links, country by country.</p>
+  <div class="stamp-badge">
+    <span class="n">10</span>
+    <span class="t">Countries Tracked</span>
+  </div>
+</section>
+
+<div class="selector-wrap">
+  <div class="selector-label">Choose a destination</div>
+  <div class="stamps" id="stamps"></div>
+</div>
+
+<div id="panel-root"></div>
+
+<footer>
+  <p>All 10 countries are now fully researched — Australia, Saudi Arabia, the UK, USA, Canada, UAE, Germany, Singapore, Spain, and Portugal.<br>
+  <span class="mono">Always confirm current requirements on the official government site linked for each step — rules on foreign ownership and residency change often.</span></p>
+</footer>
+
+<script>
+const DATA = {
+  au: {
+    flag: "🇦🇺", name: "Australia", soon:false,
+    subtitle: "Renting is open to anyone with the right paperwork. Buying as a foreign non-resident is legal but tightly regulated by the federal government.",
+    listingSites: [
+      {label:"realestate.com.au", url:"https://www.realestate.com.au"},
+      {label:"domain.com.au", url:"https://www.domain.com.au"},
+      {label:"View.com.au", url:"https://www.view.com.au"}
+    ],
+    rent: {
+      duration: "Typically 1–4 weeks to secure a lease once actively inspecting properties",
+      eligibility: "Open to anyone, including temporary visa holders and new arrivals — there's no residency requirement to rent.",
+      steps: [
+        {t:"Gather your paperwork first", d:"Photo ID (passport, visa), proof of income (payslips or an employment contract), bank statements, and rental or personal references. Australia uses a \"100-point ID check,\" so having several documents ready matters."},
+        {t:"Search and inspect", d:"Most properties are found on portals like realestate.com.au or domain.com.au and shown via scheduled open-house inspections rather than private one-on-one viewings."},
+        {t:"Submit your application", d:"Applications go through the agent, usually via an online system (Ignite, Snug, or similar). Include a short cover letter if you're new to the country or have no local rental history."},
+        {t:"Wait for screening", d:"Agents verify references and run background checks. In a competitive market you're often up against several other applicants for the same property."},
+        {t:"Sign the lease and pay the bond", d:"The bond is usually four weeks' rent, and it's lodged with your state's official bond authority (not paid directly to the landlord) as security held in trust."},
+        {t:"Move-in condition report", d:"You and the agent document the property's condition on entry — this record protects your bond when you eventually move out."}
+      ],
+      documents: ["Passport and visa", "Proof of income (payslips / employment contract)", "Bank statements", "Rental history references (or a cover letter if you have none)", "Personal references"],
+      links: [
+        {label:"Consumer Affairs Victoria — renting", url:"https://www.consumer.vic.gov.au/housing/renting"},
+        {label:"Residential Tenancies Bond Authority (Vic)", url:"https://www.rtba.vic.gov.au"}
+      ],
+      notes: "Rules on bonds, notice periods, and tenant rights are set state-by-state, so double check the equivalent authority for whichever state you're moving to."
+    },
+    buy: {
+      duration: "FIRB decision: ~30 days (up to 90 for complex cases). Total offer-to-settlement: commonly 2–4 months.",
+      eligibility: "As of 2025–2029, foreign persons are generally barred from buying established (existing) homes. New builds, off-the-plan properties, and vacant land for a new build are the main options open to non-residents.",
+      steps: [
+        {t:"Sort your finance and check your category", d:"Non-resident mortgages typically need a 20–50% deposit through a specialist lender. Your visa status (temporary visa, PR, or non-resident) determines which FIRB rules apply to you."},
+        {t:"Confirm what you're allowed to buy", d:"Foreign buyers are currently restricted to new or near-new dwellings, off-the-plan units, or vacant land — not existing houses on the general market."},
+        {t:"Search and make an offer", d:"Use property portals or a buyer's agent. Once your offer is accepted, the property is provisionally yours pending approvals."},
+        {t:"Lodge your FIRB application", d:"Applications for residential property go through the ATO's online foreign investment portal. There's effectively a $0 screening threshold — approval is required regardless of price."},
+        {t:"Pay the FIRB application fee", d:"Fees are tiered by property value (for example, roughly AUD 14,100 for a property up to $1 million as of recent fee schedules) and are separate from stamp duty."},
+        {t:"Inspections and conveyancing", d:"Arrange a building and pest inspection, and engage a conveyancer or solicitor to manage contract review and the settlement process."},
+        {t:"Exchange contracts and pay your deposit", d:"Once satisfied, contracts are exchanged and a deposit (commonly 10%) is paid."},
+        {t:"Settlement", d:"Title transfers into your name. You'll also pay standard stamp duty plus a foreign-purchaser surcharge, which varies by state."}
+      ],
+      documents: ["Passport and visa / residency evidence", "FIRB application (lodged via the ATO portal)", "Proof of funds", "Signed contract of sale", "Identification for anti-money-laundering checks"],
+      links: [
+        {label:"Foreign Investment Review Board", url:"https://firb.gov.au"},
+        {label:"ATO — foreign investment in Australia", url:"https://www.ato.gov.au/businesses-and-organisations/international-tax-for-business/foreign-investment-in-australia"},
+        {label:"State Revenue Office Victoria — duties", url:"https://www.sro.vic.gov.au"}
+      ],
+      notes: "The ban on established dwellings for foreign buyers runs until mid-2029 at last check — confirm current status before assuming a property type is eligible."
+    }
+  },
+  sa: {
+    flag: "🇸🇦", name: "Saudi Arabia", soon:false,
+    subtitle: "Renting is the default path for the country's large expat population. Buying just opened up nationwide in January 2026 under a brand-new law.",
+    listingSites: [
+      {label:"Aqar", url:"https://sa.aqar.fm"},
+      {label:"Wasalt", url:"https://wasalt.sa/en"},
+      {label:"Bayut Saudi Arabia", url:"https://www.bayut.sa"},
+      {label:"Property Finder KSA", url:"https://www.propertyfinder.sa"}
+    ],
+    rent: {
+      duration: "2–4 weeks to find a suitable place in high-demand areas; 24–48 hours to finalise once a property and documents are ready.",
+      eligibility: "You need a valid Iqama (residency permit) to legally register a lease — there's no renting without one.",
+      steps: [
+        {t:"Set up Absher and your Iqama", d:"Make sure your Absher government-services account is active and linked to your mobile number before you start viewing places — you'll need it to approve the lease later."},
+        {t:"Search for a property", d:"Platforms like Wasalt and local brokers are the main channels. In high-demand districts, good listings can be gone within days."},
+        {t:"View and negotiate", d:"Once you find something, you may be asked to pay an Arboon — a reservation deposit, usually 5–10% of the annual rent — to hold it. This is typically non-refundable if you withdraw."},
+        {t:"Landlord registers the lease on Ejar", d:"Ejar is the government's mandatory rental registration platform, run by the Real Estate General Authority (REGA). An unregistered lease carries little legal weight."},
+        {t:"You approve the contract via Absher", d:"The tenant confirms the Ejar-registered contract through their Absher account, which finalises it legally."},
+        {t:"Pay rent — usually upfront", d:"Annual or semi-annual payment is standard, often via post-dated cheques, direct bank transfer, or the newer Ejar Pay system. Cash to the landlord isn't legally recognised."}
+      ],
+      documents: ["Valid Iqama (residency permit)", "Passport copy", "Salary certificate or employment letter", "Absher-linked mobile number", "Landlord's Hawiyya (national ID) for Ejar verification"],
+      links: [
+        {label:"Ejar — official rental registration platform", url:"https://www.ejar.sa"},
+        {label:"Absher — government services portal", url:"https://www.absher.sa"},
+        {label:"Real Estate General Authority (REGA)", url:"https://www.rega.gov.sa"}
+      ],
+      notes: "There's no broad formal tenant-protection law outside of Ejar's contract terms, so read the registered contract carefully — especially who's responsible for maintenance."
+    },
+    buy: {
+      duration: "New framework as of January 2026 — implementing details are still rolling out through the year, so timelines aren't fully settled yet.",
+      eligibility: "As of January 2026, non-Saudis can own residential property, but only within specific geographic zones designated by REGA. Foreign residents may also own one residential unit outside those zones for personal use. Makkah and Madinah remain restricted mainly to Muslim buyers.",
+      steps: [
+        {t:"Confirm the zone", d:"Ownership is only permitted in areas covered by REGA's \"Geographic Scope Document\" — expected to include parts of Riyadh, Jeddah, and other high-growth areas. A property outside an approved zone generally isn't purchasable by a foreigner."},
+        {t:"Check which ownership route applies to you", d:"Rules differ depending on whether you're a foreign resident (Iqama holder), a non-resident foreign individual, or a foreign-owned company."},
+        {t:"Get local legal advice", d:"Because the law only took effect in January 2026, a local real estate lawyer can confirm a specific property's zone status and current procedural requirements."},
+        {t:"Search within approved zones", d:"Work with agents who can confirm REGA zone eligibility for each listing before you get attached to a property."},
+        {t:"Sign the sale agreement and pay a deposit", d:"Standard contract-of-sale practice applies, similar to other Gulf markets."},
+        {t:"Register with REGA and pay transaction tax", d:"Property transfers are subject to the Real Estate Transaction Tax (RETT), administered by ZATCA, generally around 5%."},
+        {t:"Title transfer", d:"Once registered, ownership transfers formally into your name."}
+      ],
+      documents: ["Passport", "Iqama (if a resident) or foreign entity registration (if a company)", "Proof of funds", "REGA zone verification for the property", "Signed sale contract", "ZATCA tax registration for RETT payment"],
+      links: [
+        {label:"Real Estate General Authority (REGA)", url:"https://www.rega.gov.sa"},
+        {label:"Zakat, Tax and Customs Authority (ZATCA)", url:"https://zatca.gov.sa"}
+      ],
+      notes: "This is genuinely new — the law took effect January 22, 2026. Expect procedural details to keep firming up over the year, so treat this as a starting point, not the final word."
+    }
+  },
+  gb: {
+    flag: "🇬🇧", name: "United Kingdom", soon:false,
+    subtitle: "Renting is open to anyone who can pass a 'Right to Rent' check. Buying has zero residency restrictions, but non-residents pay a stamp duty surcharge.",
+    listingSites: [
+      {label:"Rightmove", url:"https://www.rightmove.co.uk"},
+      {label:"Zoopla", url:"https://www.zoopla.co.uk"},
+      {label:"OnTheMarket", url:"https://www.onthemarket.com"}
+    ],
+    rent: {
+      duration: "Typically 2–4 weeks from viewing to move-in once referencing starts.",
+      eligibility: "You must pass a 'Right to Rent' check — landlords are legally required to verify you're allowed to live in the UK before offering a tenancy.",
+      steps: [
+        {t:"Prove your Right to Rent", d:"For non-UK nationals this usually means a visa, residence permit, or a passport with a UK visa. Most checks are now done digitally through the Home Office's online service."},
+        {t:"Search and view", d:"Rightmove and Zoopla list the vast majority of properties. Viewings are typically one-on-one with the agent, not scheduled open houses."},
+        {t:"Go through tenant referencing", d:"Agents check identity, credit history, income (often at least 2.5x the monthly rent), and previous landlord references."},
+        {t:"Arrange a guarantor if needed", d:"New arrivals with no UK credit history or rental record are commonly asked for a UK-based guarantor, or to pay several months' rent upfront instead."},
+        {t:"Sign the tenancy agreement", d:"Most new tenancies are Assured Shorthold Tenancies (or the newer periodic tenancy framework under recent reforms), typically for an initial 6–12 months."},
+        {t:"Pay deposit and move in", d:"The deposit (usually capped at 5 weeks' rent) must legally be protected in a government-approved tenancy deposit scheme."}
+      ],
+      documents: ["Passport and visa/residence permit", "Proof of income (payslips or employment contract)", "Bank statements", "Previous landlord or employer references", "Guarantor details, if required"],
+      links: [
+        {label:"GOV.UK — Right to Rent checks", url:"https://www.gov.uk/check-tenant-right-to-rent-documents"},
+        {label:"GOV.UK — Tenancy deposit protection", url:"https://www.gov.uk/tenancy-deposit-protection"}
+      ],
+      notes: "Renting rules differ slightly across England, Scotland, Wales, and Northern Ireland — confirm which framework applies to your specific address."
+    },
+    buy: {
+      duration: "No residency-based approval process — the timeline is the same as for any buyer: typically 8–12 weeks from accepted offer to completion.",
+      eligibility: "Open to anyone regardless of residency or immigration status. There's no ownership ban — but non-UK residents pay an extra 2% Stamp Duty Land Tax surcharge in England and Northern Ireland.",
+      steps: [
+        {t:"Get your finances in order", d:"If you need a mortgage, non-resident lending is available but usually requires a larger deposit and comes with fewer lender options than for UK residents."},
+        {t:"Search and make an offer", d:"Rightmove and Zoopla cover most of the market. Offers are made directly through the estate agent."},
+        {t:"Instruct a solicitor or conveyancer", d:"They handle title checks, searches, and the legal transfer — this is mandatory in England, Wales, and Northern Ireland (Scotland uses a slightly different solicitor-led system)."},
+        {t:"Exchange contracts", d:"Once searches and mortgage offer are finalised, contracts are exchanged and a deposit (commonly 10%) becomes legally binding."},
+        {t:"Pay Stamp Duty Land Tax", d:"Standard SDLT rates apply, plus the 2% non-UK resident surcharge if you haven't spent at least 183 days in the UK in the past 12 months."},
+        {t:"Complete and register", d:"On completion day, the balance is paid, keys are handed over, and your solicitor registers you as owner with HM Land Registry."}
+      ],
+      documents: ["Passport", "Proof of funds / mortgage offer letter", "Signed contract of sale", "Identification for anti-money-laundering checks", "SDLT return (filed by your solicitor)"],
+      links: [
+        {label:"GOV.UK — Stamp Duty Land Tax", url:"https://www.gov.uk/stamp-duty-land-tax"},
+        {label:"HM Land Registry", url:"https://www.gov.uk/government/organisations/land-registry"}
+      ],
+      notes: "The 2% surcharge is refundable if you become UK-resident within 12 months of the purchase — worth flagging to your solicitor if that's likely to apply to you."
+    }
+  },
+  us: {
+    flag: "🇺🇸", name: "United States", soon:false,
+    subtitle: "Renting and buying both have no citizenship requirement — the real hurdles are building credit history and navigating tax rules like FIRPTA as a foreign buyer.",
+    listingSites: [
+      {label:"Zillow", url:"https://www.zillow.com"},
+      {label:"Apartments.com", url:"https://www.apartments.com"},
+      {label:"Realtor.com", url:"https://www.realtor.com"}
+    ],
+    rent: {
+      duration: "Applications are usually processed within 24–72 hours once documents are in.",
+      eligibility: "No citizenship or SSN requirement, but most screening systems are built around having a Social Security Number, so foreign applicants often need an ITIN, a guarantor, or alternative proof of income instead.",
+      steps: [
+        {t:"Decide your ID strategy", d:"If you don't have an SSN, an ITIN (apply via IRS Form W-7) can fill that field on most applications — or you can select 'no SSN/ITIN' on platforms like Apartments.com and provide alternative documents."},
+        {t:"Gather alternative proof", d:"Passport, visa or immigration status document, an offer letter or employment contract, and several months of bank statements all help stand in for a US credit history."},
+        {t:"Search and tour", d:"Zillow and Apartments.com are the main national platforms; most cities also have local brokers who show units in person."},
+        {t:"Line up a guarantor if needed", d:"Landlords who can't run a US credit check on you will often ask for a US-based guarantor (or a paid guarantor service like Insurent or TheGuarantors) earning 80–100x the monthly rent."},
+        {t:"Submit the application and pay the fee", d:"Application fees (commonly $30–$75) are usually non-refundable, even if you're rejected."},
+        {t:"Sign the lease and pay deposit", d:"Security deposits are typically one month's rent, though this varies significantly by state and by your financial profile as an international applicant."}
+      ],
+      documents: ["Passport and visa/immigration status document", "ITIN (if no SSN)", "Proof of income (payslips, employment contract, or bank statements)", "Guarantor details, if required", "Previous landlord references"],
+      links: [
+        {label:"IRS — Individual Taxpayer Identification Number (ITIN)", url:"https://www.irs.gov/individuals/individual-taxpayer-identification-number"},
+        {label:"HUD — Fair Housing Act", url:"https://www.hud.gov/program_offices/fair_housing_equal_opp/fair_housing_act_overview"}
+      ],
+      notes: "The Fair Housing Act prohibits landlords from refusing to rent to you based on national origin, but they can still legally assess your ability to pay — that's where most of the friction shows up."
+    },
+    buy: {
+      duration: "No approval process based on residency — a typical purchase takes 30–60 days from accepted offer to closing.",
+      eligibility: "There's no citizenship, residency, or visa requirement to buy US real estate — you can purchase under your own name, through an LLC, or even on a tourist visa.",
+      steps: [
+        {t:"Assemble your team", d:"A real estate agent experienced with international buyers (look for the CIPS designation), a mortgage broker if financing, and a real estate attorney or title company."},
+        {t:"Sort your financing approach", d:"Foreign national loan programs exist but typically require a 25–40% down payment and more documentation than a standard US mortgage. Many foreign buyers simply pay cash."},
+        {t:"Open a US bank account", d:"You'll need this to wire funds for the deposit and closing costs."},
+        {t:"Search and make an offer", d:"Zillow and Realtor.com cover most of the national market."},
+        {t:"Go through inspection and title work", d:"A title company or attorney checks for liens and handles escrow."},
+        {t:"Close and record the deed", d:"Funds are wired, documents are signed (often remotely via a power of attorney), and the deed is recorded with the county."}
+      ],
+      documents: ["Passport", "Proof of funds", "US bank account details", "Signed purchase agreement", "ITIN (recommended, especially if you'll eventually sell)"],
+      links: [
+        {label:"IRS — FIRPTA withholding overview", url:"https://www.irs.gov/individuals/international-taxpayers/firpta-withholding"},
+        {label:"Consumer Financial Protection Bureau — buying a house", url:"https://www.consumerfinance.gov/owning-a-home/"}
+      ],
+      notes: "FIRPTA doesn't affect you at purchase — it's a withholding requirement that applies when you eventually sell as a foreign owner, so it's worth planning for from day one rather than being surprised later."
+    }
+  },
+  ca: {
+    flag: "🇨🇦", name: "Canada", soon:false,
+    subtitle: "Renting is straightforward for newcomers. Buying is currently restricted for most non-Canadians under a federal ban running to January 2027.",
+    listingSites: [
+      {label:"Realtor.ca", url:"https://www.realtor.ca"},
+      {label:"Rentals.ca", url:"https://rentals.ca"},
+      {label:"liv.rent", url:"https://liv.rent"}
+    ],
+    rent: {
+      duration: "Typically a few days to a few weeks depending on the city's rental market tightness.",
+      eligibility: "Open to anyone with at least a valid visitor visa for short stays, or a work/study permit or PR status for a standard long-term lease.",
+      steps: [
+        {t:"Confirm your status allows a long-term lease", d:"Tourists can generally only rent short-term (up to about 6 months); a work permit, study permit, or PR status is expected for a standard fixed-term lease."},
+        {t:"Search listings", d:"Realtor.ca and Rentals.ca cover most of the market, alongside city-specific platforms."},
+        {t:"Prepare alternative proof if you lack Canadian credit history", d:"Newcomers rarely have a Canadian credit score — bring proof of income, international bank statements, and references from previous landlords or employers instead."},
+        {t:"Arrange a guarantor if asked", d:"Landlords sometimes want a Canada-based guarantor for applicants with no local credit history; this isn't universal and is negotiable in a softer rental market."},
+        {t:"Submit the rental application", d:"You are not legally required to give a Social Insurance Number — landlords can run checks with your name, date of birth, and address instead."},
+        {t:"Sign the lease", d:"Standard leases are 12 months; read the province-specific tenancy rules, since deposit rules and notice periods vary a lot by province."}
+      ],
+      documents: ["Passport and visa/work or study permit", "Proof of income (payslips, employment letter, or bank statements)", "International or local credit report, where available", "Guarantor details, if required", "Previous landlord or employer references"],
+      links: [
+        {label:"CMHC — renting in Canada", url:"https://www.cmhc-schl.gc.ca"},
+        {label:"Ontario Human Rights Commission — tenant rights", url:"https://www.ohrc.on.ca"}
+      ],
+      notes: "Tenancy law is set provincially, so the specific rules on deposits, notice periods, and rent increases depend entirely on which province you're moving to."
+    },
+    buy: {
+      duration: "N/A while the ban is in effect for most non-Canadians — check current status before planning around a purchase.",
+      eligibility: "Most non-Canadians are banned from buying residential property in Census Metropolitan Areas and Agglomerations until at least January 1, 2027. Key exemptions: permanent residents, spouses of eligible buyers, and — notably — work permit holders with at least 183 days of permit validity remaining.",
+      steps: [
+        {t:"Check whether the ban applies to you", d:"PRs, protected persons, and those with an eligible work permit can generally still buy. Non-resident foreign nationals without one of these statuses currently cannot buy most residential property in major cities."},
+        {t:"Confirm the property type and location", d:"The ban only covers residential property with three or fewer units inside Census Metropolitan Areas/Agglomerations. Vacant land, recreational properties (cottages), and larger multi-unit buildings are exempt."},
+        {t:"If exempt, arrange financing", d:"Non-resident buyers typically need a larger down payment (often 35%+) and face foreign-buyer surcharges in some provinces, like Ontario and BC."},
+        {t:"Search and make an offer", d:"Realtor.ca is the standard national listing platform."},
+        {t:"Engage a real estate lawyer", d:"Mandatory in most provinces to handle the closing and title transfer."},
+        {t:"Close and register title", d:"Funds are transferred, the deed is registered provincially, and applicable land transfer taxes are paid."}
+      ],
+      documents: ["Passport and proof of eligible status (work permit, PR card, etc.)", "Proof of funds", "Signed purchase agreement", "Identification for anti-money-laundering checks"],
+      links: [
+        {label:"CMHC — Prohibition Act guidance", url:"https://www.cmhc-schl.gc.ca/professionals/housing-markets-data-and-research/housing-research/consultations/prohibition-purchase-residential-property-non-canadians-act"},
+        {label:"Canada.ca — foreign buyer ban announcement", url:"https://www.canada.ca/en/department-finance/news/2024/02/government-announces-two-year-extension-to-ban-on-foreign-ownership-of-canadian-housing.html"}
+      ],
+      notes: "This ban has already been extended once (from 2025 to 2027) — confirm the current end date before making long-term plans around it."
+    }
+  },
+  ae: {
+    flag: "🇦🇪", name: "UAE", soon:false,
+    subtitle: "Renting runs on the government's Ejari system. Buying is fully open to foreigners in designated freehold zones, with no residency required.",
+    listingSites: [
+      {label:"Bayut", url:"https://www.bayut.com"},
+      {label:"Property Finder", url:"https://www.propertyfinder.ae"},
+      {label:"Dubizzle Property", url:"https://www.dubizzle.com/en/property-for-rent/"}
+    ],
+    rent: {
+      duration: "Search-to-signing commonly takes 1–3 weeks; good listings in popular areas move fast.",
+      eligibility: "Renting generally requires a UAE residence visa and Emirates ID, though some landlords will accept new arrivals on a signed employment offer while their visa processes.",
+      steps: [
+        {t:"Search and shortlist", d:"Bayut and Property Finder are the two dominant platforms for both rentals and listings across all seven emirates."},
+        {t:"View and negotiate", d:"Once you agree on price and cheque structure, you typically pay a refundable holding deposit (around 5%) to take the unit off the market."},
+        {t:"Sign the tenancy contract", d:"A standardised tenancy contract sets out rent, cheque schedule, and responsibilities — read the addendum carefully, since landlords add specific rules there."},
+        {t:"Register with Ejari (or Tawtheeq in Abu Dhabi)", d:"This is the mandatory government registration step that makes your lease legally valid and is required to set up utilities."},
+        {t:"Connect utilities (DEWA or local equivalent)", d:"You'll need your Ejari number and passport copy to open an account, plus a refundable deposit."},
+        {t:"Pay rent", d:"Post-dated cheques covering the year are still common, though monthly digital payment options are increasingly available."}
+      ],
+      documents: ["Passport copy", "UAE visa copy", "Emirates ID", "Signed tenancy contract", "Salary certificate or employment letter"],
+      links: [
+        {label:"Dubai REST — Ejari registration", url:"https://dubailand.gov.ae"},
+        {label:"RERA — Real Estate Regulatory Agency", url:"https://www.dubailand.gov.ae/en/about-dubai-land-department/about-rera/"}
+      ],
+      notes: "Never pay or hand over cheques before you've received a signed tenancy contract — pressure to pay first is a well-known red flag."
+    },
+    buy: {
+      duration: "Around 2–6 weeks from signing the MOU to receiving the title deed for a ready property.",
+      eligibility: "Foreigners of any nationality can buy freehold property with full ownership rights, but only within designated freehold zones (Downtown, Marina, Palm Jumeirah, JVC, and others). No UAE residency or visa is required to buy.",
+      steps: [
+        {t:"Confirm the zone is freehold", d:"A RERA-licensed broker can verify whether a specific building or community allows foreign freehold ownership."},
+        {t:"Sign the Memorandum of Understanding (Form F)", d:"Buyer and seller agree on price and terms; a holding deposit (commonly 10%) is paid, usually into an escrow account."},
+        {t:"Get the developer's No Objection Certificate", d:"This confirms the seller has no outstanding service charges and that the unit is clear to transfer."},
+        {t:"Arrange financing if needed", d:"Non-residents can get UAE mortgages, though loan-to-value ratios are typically lower (around 50–60%) than for residents."},
+        {t:"Attend the DLD transfer appointment", d:"Buyer and seller (or representatives) attend the Dubai Land Department trustee office, or complete the process via the Dubai REST app."},
+        {t:"Pay the transfer fee and receive the title deed", d:"The standard DLD transfer fee is 4% of the purchase price, plus a fixed admin fee. The title deed is often issued the same day."}
+      ],
+      documents: ["Valid passport (minimum age 21)", "Signed Sale and Purchase Agreement", "No Objection Certificate from the developer", "Proof of funds", "Bank NOC, if using a mortgage"],
+      links: [
+        {label:"Dubai Land Department (DLD)", url:"https://dubailand.gov.ae"},
+        {label:"RERA — Real Estate Regulatory Agency", url:"https://www.dubailand.gov.ae/en/about-dubai-land-department/about-rera/"}
+      ],
+      notes: "Buying a property worth AED 2 million or more can also make you eligible for the UAE's 10-year Golden Visa — worth checking if long-term residency matters to you too."
+    }
+  },
+  de: {
+    flag: "🇩🇪", name: "Germany", soon:false,
+    subtitle: "Renting is competitive and paperwork-heavy, especially around the Schufa credit check. Buying has no restrictions on foreigners at all — the same process applies to everyone.",
+    listingSites: [
+      {label:"ImmobilienScout24", url:"https://www.immobilienscout24.de"},
+      {label:"Immowelt", url:"https://www.immowelt.de"},
+      {label:"WG-Gesucht", url:"https://www.wg-gesucht.de"}
+    ],
+    rent: {
+      duration: "Competitive cities like Berlin and Munich can take 1–3 months of active searching; smaller cities are faster.",
+      eligibility: "Open to anyone, but landlords lean heavily on the Schufa credit report — which you can only get once you already have a German address, creating a chicken-and-egg problem for new arrivals.",
+      steps: [
+        {t:"Consider a furnished temporary place first", d:"A short-term furnished rental gets you the Wohnungsgeberbestätigung (landlord confirmation) needed to complete your Anmeldung, which you need before you can get a Schufa report."},
+        {t:"Complete your Anmeldung", d:"Register your address at the local Bürgeramt within 14 days of moving in — this is required for almost everything else administratively in Germany."},
+        {t:"Get your Schufa report", d:"Once registered, you can request your Schufa score online, which most landlords will expect for an unfurnished, long-term lease."},
+        {t:"Build your application dossier", d:"A complete package — Mieterselbstauskunft (tenant self-disclosure form), Schufa, recent payslips, ID, and ideally a Mietschuldenfreiheitsbescheinigung (proof of no rent debt) — moves fast in competitive markets."},
+        {t:"Search and apply quickly", d:"Popular listings on ImmoScout24 can get hundreds of inquiries within an hour — have your documents ready to send immediately."},
+        {t:"Sign the Mietvertrag and pay the Kaution", d:"The security deposit (Kaution) is commonly up to three months' cold rent (Kaltmiete)."}
+      ],
+      documents: ["Passport or ID", "Residence permit (for non-EU citizens)", "Schufa credit report (or alternative proof if newly arrived)", "Proof of income (payslips or employment contract)", "Mieterselbstauskunft (tenant self-disclosure form)"],
+      links: [
+        {label:"Federal Government — registration (Anmeldung) rules", url:"https://www.bundesregierung.de"},
+        {label:"SCHUFA — official credit report", url:"https://www.schufa.de"}
+      ],
+      notes: "Be upfront if you don't yet have a Schufa score — many landlords accept an employer letter or bank statements instead once you explain you're new to the country."
+    },
+    buy: {
+      duration: "Typically 3–6 months from accepted offer to being registered as owner in the Grundbuch.",
+      eligibility: "No restrictions whatsoever — German law does not distinguish between citizens, EU nationals, and non-EU foreigners for residential property ownership. You can even buy as a tourist.",
+      steps: [
+        {t:"Search and agree terms", d:"ImmoScout24 and Immowelt cover most of the national market."},
+        {t:"Review the draft contract from a notary", d:"A notary (Notar) is legally required for every property transaction in Germany and drafts the purchase contract (Kaufvertrag)."},
+        {t:"Attend the notary appointment (Beurkundung)", d:"The contract is read aloud in full and signed by both parties — you can use a notarised power of attorney if you can't attend in person."},
+        {t:"Pay the property transfer tax (Grunderwerbsteuer)", d:"This ranges from 3.5% to 6.5% depending on the federal state, and must be paid before the land registry will proceed."},
+        {t:"Wait for Grundbuch registration", d:"Ownership legally transfers only once you're entered in the Grundbuch (land registry) — this typically takes 4–12 weeks after the notary appointment."},
+        {t:"Set up ongoing obligations", d:"Register for the annual property tax (Grundsteuer) and, if applicable, join the building's Eigentümergemeinschaft (owners' association)."}
+      ],
+      documents: ["Passport", "Proof of funds or mortgage pre-approval", "Signed notarial purchase contract (Kaufvertrag)", "Steuer-ID (German tax ID)", "German bank account details"],
+      links: [
+        {label:"Federal Chamber of Notaries (Bundesnotarkammer)", url:"https://www.bnotk.de"},
+        {label:"Federal Central Tax Office — Steuer-ID", url:"https://www.bzst.de"}
+      ],
+      notes: "There's no restriction on ownership, but non-resident buyers face tougher mortgage underwriting — expect to need a 30–40% deposit if you're financing rather than paying cash."
+    }
+  },
+  sg: {
+    flag: "🇸🇬", name: "Singapore", soon:false,
+    subtitle: "Renting private property is open to any valid pass holder. Buying is legal for foreigners but comes with a steep 60% additional tax on most nationalities.",
+    listingSites: [
+      {label:"PropertyGuru", url:"https://www.propertyguru.com.sg"},
+      {label:"99.co", url:"https://www.99.co"},
+      {label:"SRX", url:"https://www.srx.com.sg"}
+    ],
+    rent: {
+      duration: "Typically a few days to a couple of weeks once you start viewings, given the transactional, agent-driven process.",
+      eligibility: "You need a valid pass (Employment Pass, S Pass, Dependant's Pass, etc.) with at least 6 months' validity remaining to lease private property; HDB flats have additional eligibility rules.",
+      steps: [
+        {t:"Engage a licensed agent", d:"Most rentals in Singapore go through a CEA-licensed agent, who prepares the paperwork on your behalf."},
+        {t:"Prepare your documents", d:"Have your passport and valid pass ready — some landlords will accept an In-Principle Approval letter if your visa is still processing."},
+        {t:"Submit a Letter of Intent (LOI)", d:"This proposes your terms to the landlord and is accompanied by a Good Faith Deposit, which rolls into your security deposit if accepted."},
+        {t:"Review and sign the Tenancy Agreement", d:"Standard practice is to sign within about 7 days of the LOI being accepted."},
+        {t:"Pay stamp duty", d:"Tenants are responsible for stamping the lease via IRAS — 0.4% of the total rent for the lease term, due within 14 days of signing."},
+        {t:"Pay the security deposit and move in", d:"Typically one month's rent for a 1-year lease, two months' for a 2-year lease."}
+      ],
+      documents: ["Passport", "Valid pass (Employment Pass, S Pass, Dependant's Pass, etc.)", "Proof of income, if requested", "Signed Letter of Intent", "Stamp duty payment confirmation from IRAS"],
+      links: [
+        {label:"IRAS — e-Stamping for tenancy agreements", url:"https://www.iras.gov.sg"},
+        {label:"HDB — renting rules for foreigners", url:"https://www.hdb.gov.sg"}
+      ],
+      notes: "Only Singapore Citizens and Permanent Residents can generally rent HDB flats as the main tenant — most foreigners will be looking at private condos or landed property instead."
+    },
+    buy: {
+      duration: "No special approval delay for eligible property types, but budget for the 14-day window to pay stamp duties after signing.",
+      eligibility: "Foreigners can freely buy private condominiums and apartments, but not HDB flats, and not landed property outside Sentosa Cove without rare government approval. Most nationalities also pay a steep 60% Additional Buyer's Stamp Duty (ABSD) — though citizens of the US, Switzerland, Iceland, Liechtenstein, and Norway are exempt under Free Trade Agreements.",
+      steps: [
+        {t:"Confirm what you're eligible to buy", d:"Private non-landed condos and apartments are open to any foreigner; landed property needs Land Dealings Approval Unit clearance, which is rarely granted outside Sentosa Cove."},
+        {t:"Check your ABSD exposure", d:"Unless you're from one of the five FTA-exempt countries, expect to pay 60% ABSD on top of standard Buyer's Stamp Duty (up to 6%) — a major cost to budget for upfront."},
+        {t:"Arrange financing", d:"Banks lend to foreigners up to 75% loan-to-value on a first property, but CPF savings can't be used by non-residents."},
+        {t:"Search and make an offer", d:"PropertyGuru and 99.co are the two dominant listing platforms."},
+        {t:"Sign the Option to Purchase and exercise it", d:"A deposit secures the option; exercising it within the option period commits you to the purchase."},
+        {t:"Pay stamp duties and complete", d:"All stamp duties (BSD + ABSD, if applicable) are due within 14 days of signing — this is usually the single largest cost in the transaction."}
+      ],
+      documents: ["Passport", "Proof of funds", "Signed Option to Purchase", "FTA exemption documentation, if claiming one", "Mortgage approval letter, if financing"],
+      links: [
+        {label:"IRAS — Additional Buyer's Stamp Duty (ABSD)", url:"https://www.iras.gov.sg"},
+        {label:"Singapore Land Authority", url:"https://www.sla.gov.sg"}
+      ],
+      notes: "The ABSD is calculated on whichever is higher — purchase price or market valuation — and must generally be paid in cash, since banks won't lend against it."
+    }
+  },
+  es: {
+    flag: "🇪🇸", name: "Spain", soon:false,
+    subtitle: "Renting is open to anyone with a passport. Buying has no restrictions today, though a proposed tax targeting non-EU buyers is still being debated in parliament.",
+    listingSites: [
+      {label:"Idealista", url:"https://www.idealista.com"},
+      {label:"Fotocasa", url:"https://www.fotocasa.es"},
+      {label:"pisos.com", url:"https://www.pisos.com"}
+    ],
+    rent: {
+      duration: "With documents ready, a mid-term rental can be secured in 24–48 hours; long-term leases often take 1–2 weeks.",
+      eligibility: "No legal restriction on foreigners renting, resident or not — landlords assess financial credibility rather than nationality, though an NIE (foreigner ID number) makes the process much easier.",
+      steps: [
+        {t:"Get your NIE if you can", d:"The Número de Identidad de Extranjero isn't always mandatory to sign a lease, but most landlords ask for it — apply at a consulate abroad or a Foreigners' Office in Spain."},
+        {t:"Gather income proof", d:"Recent payslips, an employment contract, or bank statements showing you can cover the rent."},
+        {t:"Search listings", d:"Idealista is the dominant platform across Spain, with strong coverage in every region."},
+        {t:"Offer a guarantor or extra deposit if you lack a Spanish rental history", d:"Alternatives include a bank guarantee (aval bancario), a solvent guarantor (avalista), or paying several months' rent upfront."},
+        {t:"Sign the contract", d:"Long-term leases (vivienda habitual) are governed by the Ley de Arrendamientos Urbanos and give tenants the right to stay up to 5 years."},
+        {t:"Pay the deposit (fianza)", d:"Capped by law at one month's rent for residential leases, though landlords can ask for an additional guarantee of up to two more months."}
+      ],
+      documents: ["Passport (NIE recommended but not always mandatory)", "Proof of income (payslips, employment contract, or bank statements)", "Guarantor documents, if required", "Reference from a previous landlord, if available"],
+      links: [
+        {label:"Sede Electrónica — NIE application info", url:"https://sede.administracionespublicas.gob.es"},
+        {label:"Ley de Arrendamientos Urbanos (LAU) overview", url:"https://www.boe.es"}
+      ],
+      notes: "Watch for the classic 'overseas landlord' scam — never send money before you've physically seen the property and verified the owner's identity."
+    },
+    buy: {
+      duration: "8–12 weeks from accepted offer to completion at the notary is typical.",
+      eligibility: "Full ownership rights for EU and non-EU buyers alike, resident or not — no visa or residency is required. As of mid-2026, a proposed 100% tax on non-EU non-resident buyers has not been passed into law, but it's a live political proposal worth tracking if it applies to you.",
+      steps: [
+        {t:"Get your NIE early", d:"Every foreign buyer needs this number for contracts, taxes, and banking — start this well before you find a property, since processing times vary by region."},
+        {t:"Open a Spanish bank account", d:"Not strictly mandatory, but it simplifies paying the price, taxes, and notary fees."},
+        {t:"Hire an independent property lawyer", d:"They'll check the nota simple (land registry extract) for debts or legal issues, review the reservation contract (contrato de arras), and calculate your full tax exposure."},
+        {t:"Sign the contrato de arras and pay a deposit", d:"Typically around 10% of the price, making the deal binding for both parties."},
+        {t:"Arrange financing if needed", d:"Non-residents can usually get a Spanish mortgage covering 60–70% of the property value."},
+        {t:"Sign the deed (escritura) before a notary", d:"The remaining balance is paid, the deed is signed, and the notary handles registration."}
+      ],
+      documents: ["NIE (Foreigner Identification Number)", "Passport", "Proof of funds", "Nota simple (property legal status check)", "Signed purchase contract (contrato de arras and escritura)"],
+      links: [
+        {label:"Sede Electrónica — NIE application info", url:"https://sede.administracionespublicas.gob.es"},
+        {label:"Registradores de España — property registry", url:"https://www.registradores.org"}
+      ],
+      notes: "The proposed 100% tax on non-EU non-resident buyers has generated a lot of headlines but was still just a proposal as of mid-2026 — confirm its current status before assuming it applies to you."
+    }
+  },
+  pt: {
+    flag: "🇵🇹", name: "Portugal", soon:false,
+    subtitle: "Renting and buying are both open to foreigners with no restrictions — the main hurdle for both is getting your NIF tax number sorted early.",
+    listingSites: [
+      {label:"Idealista Portugal", url:"https://www.idealista.pt"},
+      {label:"Imovirtual", url:"https://www.imovirtual.com"},
+      {label:"Casa Sapo", url:"https://casa.sapo.pt"}
+    ],
+    rent: {
+      duration: "Good listings in Lisbon or Porto can go within 24–48 hours of posting — have your documents ready in advance.",
+      eligibility: "Open to all foreigners, with or without residency — but you cannot legally sign a long-term lease without a Portuguese NIF (tax number).",
+      steps: [
+        {t:"Get your NIF first", d:"Non-residents need a fiscal representative to obtain one. It's required to sign the lease, open a bank account, and set up utilities."},
+        {t:"Open a Portuguese bank account", d:"Not always legally required, but most landlords expect rent paid via a local IBAN."},
+        {t:"Search listings", d:"Idealista Portugal and Imovirtual cover most of the market, especially in Lisbon and Porto."},
+        {t:"Arrange a fiador (guarantor) or extra deposit", d:"Landlords often want a Portuguese guarantor with stable income; the common workaround for those without one is paying 6–12 months of rent upfront (though the legal cap on advance rent is 3 months under most lease types)."},
+        {t:"Sign the lease", d:"Contracts must be written and registered with Finanças (the tax authority) — an unregistered lease causes problems later, including for visa applications."},
+        {t:"Confirm registration", d:"This is technically the landlord's responsibility, but as the tenant it's worth double-checking it's actually been done."}
+      ],
+      documents: ["Passport or residence permit", "Portuguese NIF (tax number)", "Proof of income (payslips, employment contract, or bank statements)", "Fiador's documents, if using a guarantor", "Portuguese bank account details"],
+      links: [
+        {label:"Autoridade Tributária — NIF and tax registration", url:"https://www.portaldasfinancas.gov.pt"},
+        {label:"AIMA — residency and visa services", url:"https://aima.gov.pt"}
+      ],
+      notes: "If you're applying for a D7 or D8 visa, your rental contract doubles as proof of accommodation for AIMA — make sure it's registered and dated correctly."
+    },
+    buy: {
+      duration: "Typically a few weeks to a few months, depending on financing and how quickly your NIF and legal checks come through.",
+      eligibility: "No restrictions on foreign ownership at all — anyone, resident or not, can buy. The main practical requirement is a NIF, and non-resident buyers now face a specific tax rate rather than the standard resident scale.",
+      steps: [
+        {t:"Get your NIF", d:"Non-EU non-residents need a fiscal representative to apply. This is the first step before anything else can proceed."},
+        {t:"Open a Portuguese bank account", d:"Recommended to reduce transaction costs and simplify paying taxes and fees."},
+        {t:"Negotiate and pay a reservation deposit", d:"Commonly around 10% of the agreed price."},
+        {t:"Sign the Contrato-Promessa de Compra e Venda (CPCV)", d:"This promissory contract locks in the terms ahead of the final deed."},
+        {t:"Pay the property transfer tax (IMT) and stamp duty", d:"As of 2026, non-resident buyers face a flat IMT rate (recently set around 7.5%) rather than the progressive resident scale — this is paid before the notary will proceed."},
+        {t:"Sign the deed (Escritura Pública) and register", d:"Signed at a notary or via the Casa Pronta one-stop government service, then registered with the Conservatória do Registo Predial to complete ownership."}
+      ],
+      documents: ["Portuguese NIF", "Passport", "Signed CPCV (promissory contract)", "Proof of IMT and stamp duty payment", "Energy certificate and caderneta predial (property tax document)"],
+      links: [
+        {label:"Autoridade Tributária — NIF and IMT", url:"https://www.portaldasfinancas.gov.pt"},
+        {label:"Casa Pronta — property transaction service", url:"https://www.portaldocidadao.pt"}
+      ],
+      notes: "The flat non-resident IMT rate is a recent change (2026) — if you become a Portuguese tax resident within two years, you may be able to reclaim the difference against the standard progressive rate."
+    }
+  }
+};
+
+const COMING_SOON = [];
+
+const stampsEl = document.getElementById('stamps');
+const panelRoot = document.getElementById('panel-root');
+
+function renderStamps(activeKey){
+  stampsEl.innerHTML = "";
+  Object.entries(DATA).forEach(([key, c]) => {
+    const btn = document.createElement('button');
+    btn.className = 'stamp-btn' + (key === activeKey ? ' active' : '');
+    btn.innerHTML = `<span class="flag">${c.flag}</span><span>${c.name}</span>`;
+    btn.onclick = () => { renderStamps(key); renderPanel(key); };
+    stampsEl.appendChild(btn);
+  });
+  COMING_SOON.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'stamp-btn soon';
+    btn.innerHTML = `<span class="flag">${c.flag}</span><span>${c.name}</span><span class="soon-tag">Soon</span>`;
+    stampsEl.appendChild(btn);
+  });
+}
+
+function track(kind, data, countryKey){
+  const steps = data.steps.map((s,i) => `
+    <li><div class="step-title">${s.t}</div><div class="step-desc">${s.d}</div></li>
+  `).join("");
+  const docs = data.documents.map(d => `<li>${d}</li>`).join("");
+  const links = data.links.map(l => `<a href="${l.url}" target="_blank" rel="noopener"><span>${l.label} ↗</span></a><span class="url">${l.url}</span>`).join("");
+  return `
+    <div class="ticket ${kind}">
+      <div class="ticket-head">
+        <h3>${kind === 'rent' ? 'Renting' : 'Buying'}</h3>
+        <span class="duration-pill">${data.duration}</span>
+      </div>
+      <div class="eligibility-note">${data.eligibility}</div>
+      <ol class="steps">${steps}</ol>
+      <div class="section-label">Documents you'll need</div>
+      <ul class="doc-list">${docs}</ul>
+      <div class="section-label">Official links</div>
+      <div class="link-list">${links}</div>
+      <div class="notes-box">${data.notes}</div>
+    </div>
+  `;
+}
+
+function renderPanel(key){
+  const c = DATA[key];
+  panelRoot.innerHTML = `
+    <div class="country-panel">
+      <div class="country-head">
+        <span class="flag-big">${c.flag}</span>
+        <h2>${c.name}</h2>
+      </div>
+      <p style="max-width:1080px;margin:-1.6rem auto 1.4rem;color:var(--ink-soft);font-size:0.95rem;">${c.subtitle}</p>
+      <div class="listing-sites">
+        <span class="ls-label">Where locals search</span>
+        ${c.listingSites.map(s => `<a href="${s.url}" target="_blank" rel="noopener">${s.label} ↗</a>`).join("")}
+      </div>
+      <div class="tracks">
+        ${track('rent', c.rent, key)}
+        ${track('buy', c.buy, key)}
+      </div>
+    </div>
+  `;
+}
+
+const firstKey = Object.keys(DATA)[0];
+renderStamps(firstKey);
+renderPanel(firstKey);
+</script>
+
+</body>
+</html>
